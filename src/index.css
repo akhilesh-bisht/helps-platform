@@ -9,6 +9,6 @@ body {
   background-image: url("https://d19rpgkrjeba2z.cloudfront.net/static/gen/14e7ea357e69d82474e7.jpg");
   background-size: cover; /* Ensures the image covers the entire background */
   background-position: center; /* Centers the image */
-  background-repeat: no-repeat; /* Prevents the image from repeating */
+  background-repeat: repeat-y; /* Prevents the image from repeating */
   height: 100vh; /* Sets the height to fill the viewport */
 }

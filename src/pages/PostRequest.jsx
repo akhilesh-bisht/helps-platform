@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import { addPostRequest } from "../redux/PostSlice";
 
 const PostRequest = () => {
-  const [location, setLocation] = useState("");
   const [userLocation, setUserLocation] = useState({ lat: null, lon: null });
   const dispatch = useDispatch();
   const {
@@ -13,25 +12,11 @@ const PostRequest = () => {
     reset,
     formState: { errors },
   } = useForm();
+
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
       const { latitude, longitude } = position.coords;
       setUserLocation({ lat: latitude, lon: longitude });
-
-      // Reverse geocoding to get the address from the latitude and longitude
-      fetch(
-        `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          const address = data.address;
-          setLocation(
-            address
-              ? `${address.city}, ${address.country}`
-              : "Location not found"
-          );
-        })
-        .catch((error) => console.error("Error fetching location:", error));
     });
   }, []);
 
@@ -39,7 +24,7 @@ const PostRequest = () => {
     const postData = {
       subject: data.subject,
       time: data.time,
-      location,
+      location: `Lat: ${userLocation.lat}, Lon: ${userLocation.lon}`, // Display lat and lon
       email: data.Email,
       category: data.category,
       phone: data.phone,
@@ -97,13 +82,14 @@ const PostRequest = () => {
             <p className="text-red-500 text-sm">{errors.Email.message}</p>
           )}
         </div>
-        {/* phone no. */}
+
+        {/* Phone No. */}
         <div>
           <label className="block text-gray-700 font-semibold mb-2">
             Phone No.
           </label>
           <input
-            {...register("phone", { required: " phone is required" })}
+            {...register("phone", { required: "Phone is required" })}
             className="w-full p-3 border border-gray-300 rounded-md"
             placeholder="e.g., +999999999"
           />
@@ -111,6 +97,7 @@ const PostRequest = () => {
             <p className="text-red-500 text-sm">{errors.phone.message}</p>
           )}
         </div>
+
         {/* Category Selection */}
         <div>
           <label className="block text-gray-700 font-semibold mb-2">
@@ -124,21 +111,25 @@ const PostRequest = () => {
             <option value="Tools">Tools</option>
             <option value="Transport">Transport</option>
             <option value="Emergency">Emergency</option>
-            <option value="Emergency">Food</option>
+            <option value="Food">Food</option> {/* Fixed value */}
           </select>
           {errors.category && (
             <p className="text-red-500 text-sm">{errors.category.message}</p>
           )}
         </div>
 
-        {/* Location Field */}
+        {/* Location Field (Displaying Lat and Lon) */}
         <div>
           <label className="block text-gray-700 font-semibold mb-2">
             Location
           </label>
           <input
             type="text"
-            value={location || ""} // Ensure it's always a string
+            value={
+              userLocation.lat && userLocation.lon
+                ? `Lat: ${userLocation.lat}, Lon: ${userLocation.lon}`
+                : "Loading..."
+            } // Show lat and lon or "Loading..."
             readOnly
             className="w-full p-3 border border-gray-300 rounded-md bg-gray-200"
           />

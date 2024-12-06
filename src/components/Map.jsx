@@ -1,28 +1,46 @@
-import React from "react";
-import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
-
-const containerStyle = {
-  width: "100%",
-  height: "400px",
-};
-
-const center = {
-  lat: 28.6139,
-  lng: 77.209,
-};
+import React, { useState, useEffect } from "react";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 
 function Map() {
-  const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "YOUR_GOOGLE_MAPS_API_KEY", // Replace with your API key
-  });
+  const [userLocation, setUserLocation] = useState(null);
 
-  if (!isLoaded) return <div className="text-center p-4">Loading Map...</div>;
+  useEffect(() => {
+    // Get user's current location
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        setUserLocation([latitude, longitude]); // Update state with user's location
+      },
+      (error) => {
+        console.error("Error fetching user's location:", error);
+        alert("Unable to fetch your location.");
+      }
+    );
+  }, []);
 
   return (
-    <div className="my-10">
-      <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={12}>
-        <Marker position={center} />
-      </GoogleMap>
+    <div className="my-10 mx-auto max-w-4xl">
+      {userLocation ? (
+        <MapContainer
+          center={userLocation}
+          zoom={14}
+          className="w-full h-96 rounded-lg shadow-lg"
+        >
+          {/* Tile Layer */}
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+
+          {/* User Marker */}
+          <Marker position={userLocation}>
+            <Popup>You are here!</Popup>
+          </Marker>
+        </MapContainer>
+      ) : (
+        <div className="text-center p-4">Loading your location...</div>
+      )}
     </div>
   );
 }
