@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { addPostRequest } from "../redux/PostSlice";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const PostRequest = () => {
+  const navigate = useNavigate();
   const [userLocation, setUserLocation] = useState({ lat: null, lon: null });
   const dispatch = useDispatch();
   const {
@@ -34,6 +36,7 @@ const PostRequest = () => {
     localStorage.setItem("postRequest", JSON.stringify(postData));
     reset();
     alert("Request posted successfully!");
+    navigate("/");
   };
 
   return (
