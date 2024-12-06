@@ -43,6 +43,17 @@ function Navbar() {
           </li>
           <li>
             <NavLink
+              to="/connections"
+              className={({ isActive }) =>
+                `block py-2 ${isActive ? "text-yellow-400" : ""}`
+              }
+              onClick={() => setIsOpen(false)}
+            >
+             Connection
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
               to="/post-request"
               className={({ isActive }) =>
                 `block py-2 ${isActive ? "text-yellow-400" : ""}`

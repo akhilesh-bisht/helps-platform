@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import PostRequest from "./pages/PostRequest";
 import Contact from "./pages/Contact";
 import Login from "./pages/Login";
+import Connection from "./pages/Connections";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/post-request" element={<PostRequest />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/connections" element={<Connection />} />
         </Routes>
       </div>
     </Router>

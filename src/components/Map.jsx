@@ -7,7 +7,7 @@ const containerStyle = {
 };
 
 const center = {
-  lat: 28.6139, // Default to Delhi
+  lat: 28.6139,
   lng: 77.209,
 };
 

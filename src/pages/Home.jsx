@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { MdChat } from "react-icons/md"; // Import WhatsApp icon
+import { MdChat } from "react-icons/md";
 import { FaWhatsapp } from "react-icons/fa";
 import Map from "../components/Map";
 import Chat from "../components/Chat";
-// Import the Chat component
 import { useDispatch, useSelector } from "react-redux";
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
   const [categoryFilter, setCategoryFilter] = useState("");
-  const [currentChat, setCurrentChat] = useState(null); // For managing the current chat
+  const [currentChat, setCurrentChat] = useState(null);
   const dispatch = useDispatch();
   const reduxPosts = useSelector((state) => state.posts.posts);
 
@@ -18,7 +17,6 @@ const Home = () => {
       setPosts(reduxPosts);
     }
   }, [reduxPosts]);
-
   useEffect(() => {
     if (categoryFilter) {
       setPosts(reduxPosts.filter((post) => post.category === categoryFilter));
@@ -28,20 +26,22 @@ const Home = () => {
   }, [categoryFilter, reduxPosts]);
 
   const handleChat = (post) => {
-    setCurrentChat(post); // Set the current chat to the selected post
+    setCurrentChat(post);
   };
 
   return (
     <>
       <div className="max-w-4xl mx-auto mt-16 bg-transparent p-8">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-4xl text-center font-bold">Recent Requests</h2>
-          <div>
+          <h2 className=" text-sm sm:text-2xl  md:text-4xl text-center font-bold">
+            Recent Requests
+          </h2>
+          <div className="flex flex-col justify-center items-center">
             <label className="mr-2 text-gray-700">Filter by Category:</label>
             <select
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
-              className="p-2 border border-gray-300 rounded-md"
+              className="p-2 sm:text-2xl md:text-[16px] border border-gray-300 rounded-md"
             >
               <option value="">All Categories</option>
               <option value="Tools">Tools</option>
@@ -60,7 +60,7 @@ const Home = () => {
                 key={post.email}
                 className="p-4 border border-gray-300 rounded-md shadow-md mb-4"
               >
-                <h3 className="font-semibold">Work for: {post.subject}</h3>
+                <h3 className="font-semibold">Work : {post.subject}</h3>
                 <p>Time: {post.time}</p>
                 <p>Location: {post.location}</p>
                 <p className="text-sm text-black">Email: {post.email}</p>

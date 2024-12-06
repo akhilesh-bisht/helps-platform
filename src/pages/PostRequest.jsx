@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useForm } from "react-hook-form"; // Import useForm correctly
+import { useForm } from "react-hook-form";
 import { addPostRequest } from "../redux/PostSlice";
 
 const PostRequest = () => {
-  const [location, setLocation] = useState(""); // Ensure location is always a string
+  const [location, setLocation] = useState("");
   const [userLocation, setUserLocation] = useState({ lat: null, lon: null });
   const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
-    reset, // Destructure reset method
+    reset,
     formState: { errors },
   } = useForm();
-
-  // Get user's location using Geolocation API
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
       const { latitude, longitude } = position.coords;
@@ -44,14 +42,12 @@ const PostRequest = () => {
       location,
       email: data.Email,
       category: data.category,
-      phone: data.phone, // Added category data
+      phone: data.phone,
     };
 
-    // Dispatch the post data to Redux store
     dispatch(addPostRequest(postData));
     localStorage.setItem("postRequest", JSON.stringify(postData));
-    // Clear the form after submission
-    reset(); // Reset the form fields
+    reset();
     alert("Request posted successfully!");
   };
 
@@ -60,7 +56,6 @@ const PostRequest = () => {
       <h2 className="text-2xl font-bold text-center mb-6">Post a Request</h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        {/* Subject Field */}
         <div>
           <label className="block text-gray-700 font-semibold mb-2">
             Subject
@@ -129,6 +124,7 @@ const PostRequest = () => {
             <option value="Tools">Tools</option>
             <option value="Transport">Transport</option>
             <option value="Emergency">Emergency</option>
+            <option value="Emergency">Food</option>
           </select>
           {errors.category && (
             <p className="text-red-500 text-sm">{errors.category.message}</p>

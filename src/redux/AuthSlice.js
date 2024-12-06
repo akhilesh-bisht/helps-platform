@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  user: null, // Will hold user data after signup
+  user: null,
   loading: false,
   error: null,
 };
@@ -15,7 +15,7 @@ const authSlice = createSlice({
     },
     signupSuccess: (state, action) => {
       state.loading = false;
-      state.user = action.payload; // Store user data after successful signup
+      state.user = action.payload;
     },
     signupFailure: (state, action) => {
       state.loading = false;
@@ -26,7 +26,7 @@ const authSlice = createSlice({
     },
     loginSuccess: (state, action) => {
       state.loading = false;
-      state.user = action.payload; // User data after login success
+      state.user = action.payload;
     },
     loginFailure: (state, action) => {
       state.loading = false;
@@ -37,7 +37,7 @@ const authSlice = createSlice({
       state.error = null;
     },
     logoutSuccess: (state) => {
-      state.user = null; // Clear user data on logout
+      state.user = null;
       state.loading = false;
       state.error = null;
     },
