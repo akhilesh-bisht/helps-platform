@@ -92,6 +92,7 @@ const PostRequest = () => {
             Phone No.
           </label>
           <input
+            type="number"
             {...register("phone", { required: "Phone is required" })}
             className="w-full p-3 border border-gray-300 rounded-md"
             placeholder="e.g., +999999999"
